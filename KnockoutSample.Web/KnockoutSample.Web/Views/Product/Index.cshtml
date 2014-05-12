@@ -1,0 +1,91 @@
+﻿@model KnockoutSample.Model.Product
+
+@{
+    ViewBag.Title = "Product";
+}
+
+<h2>Product</h2>
+<div data-bind="visible: loading">Loading...</div>
+<form id="addProduct" data-bind="submit: create">
+    @Html.ValidationSummary(true)
+
+</form>
+<table data-bind="visible: !loading()" class="crud-grid table table-striped table-bordered table-condensed table-hover">
+    <tr>
+        <th class="col-md-1">
+            <div class="btn-toolbar"><i class="btn btn-default glyphicon glyphicon-plus" data-bind="click:toggleAddMode()"></i></div>
+        </th>
+        <th class="col-md-1">
+            <div>
+                Id
+                <i class="glyphicon"></i>
+            </div>
+        </th>
+        <th>
+            <div>
+                Name
+                <i class="glyphicon"></i>
+            </div>
+        </th>
+        <th>
+            <div>
+                Price
+                <i class="glyphicon"></i>
+            </div>
+        </th>
+    </tr>
+    <!-- ko foreach: products -->
+    <tr>
+        <td>
+            <div class="btn-toolbar" data-bind="visible: !$parent.isEditMode($data)">
+                <div class="btn-group">
+                    <i class="btn btn-default glyphicon glyphicon-edit" data-bind="click:$parent.beginEditMode"></i>
+                    <i class="btn btn-default glyphicon glyphicon-trash" data-bind="click:$parent.deleteObject"></i>
+                </div>
+            </div>
+            <div class="btn-toolbar" data-bind="visible: $parent.isEditMode($data)">
+                <div class="btn-group">
+                    <i class="btn btn-default glyphicon glyphicon-save" data-bind="click:$parent.updateObject"></i>
+                    <i class="btn btn-default glyphicon glyphicon-remove" data-bind="click:$parent.endEditMode"></i>
+                </div>
+            </div>
+        </td>
+        <td><span data-bind="text: Id"></span></td>
+        <td>
+            <span data-bind="visible: !$parent.isEditMode($data),text: Name"></span>
+            <input data-bind="value: $data.Name, visible: $parent.isEditMode($data)" />
+        </td>
+        <td>
+            <span data-bind="visible: !$parent.isEditMode($data), text: Price"></span>
+            <input data-bind="value: $data.Price, visible: $parent.isEditMode($data)" />
+        </td>
+    </tr>
+    <!-- /ko -->
+    <tr data-bind="visible: addmode">
+        <td>
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button type="submit" form="addProduct" class="btn btn-default glyphicon glyphicon-save"></button>
+                    <i class="btn btn-default glyphicon glyphicon-remove" data-bind="click:toggleAddMode()"></i>
+                </div>
+            </div>
+        </td>
+        <td></td>
+        <td>
+            @Html.TextBoxFor(p => p.Name, new { form = "addProduct" })
+            @Html.ValidationMessageFor(p => p.Name)
+        </td>
+        <td>
+            @Html.TextBoxFor(p => p.Price, new { form = "addProduct" })
+            @Html.ValidationMessageFor(p => p.Price)
+        </td>
+    </tr>
+</table>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/toastr")
+        @Scripts.Render("~/bundles/Product")
+        
+    }

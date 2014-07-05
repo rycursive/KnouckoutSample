@@ -12,7 +12,6 @@ using System.Web.Http.Description;
 using KnockoutSample.DAL;
 using KnockoutSample.Model;
 using KnockoutSample.DTO;
-using KnockoutSample.Service;
 using KnouckoutSample.WebBridge;
 using Repository.Pattern.Infrastructure;
 using Repository.Pattern.UnitOfWork;
@@ -21,21 +20,18 @@ namespace KnockoutSample.Web.Controllers.api
 {
     public class ProductsController : ApiController
     {
-        //private readonly IProductService _productService;
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly IProductWebBridge _productWebBridge;
 
-        public ProductsController(IUnitOfWorkAsync unitOfWorkAsync, IProductService customerService, IProductWebBridge productWebBridge)
+        public ProductsController(IUnitOfWorkAsync unitOfWorkAsync, IProductWebBridge productWebBridge)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
-            //_productService = customerService;
             _productWebBridge = productWebBridge;
         }
 
         // GET: api/Products
         public IQueryable<ProductDTO> GetProducts()
         {
-            //return _productService.ODataQueryable();
             return _productWebBridge.Queryable();
         }
 
@@ -43,7 +39,6 @@ namespace KnockoutSample.Web.Controllers.api
         [ResponseType(typeof(ProductDTO))]
         public async Task<IHttpActionResult> GetProduct(int id)
         {
-            //Product product = await _productService.FindAsync(id);
             ProductDTO productDto = await _productWebBridge.FindAsync(id);
             if (productDto == null)
             {
@@ -67,8 +62,6 @@ namespace KnockoutSample.Web.Controllers.api
                 return BadRequest();
             }
 
-            //product.ObjectState = ObjectState.Modified;
-            //_productService.Update(product);
             _productWebBridge.Update(productDto);
 
             try
@@ -99,8 +92,6 @@ namespace KnockoutSample.Web.Controllers.api
                 return BadRequest(ModelState);
             }
 
-            //product.ObjectState = ObjectState.Added;
-            //_productService.Insert(product);
             _productWebBridge.Insert(productDto);
             await _unitOfWorkAsync.SaveChangesAsync();
 
@@ -108,22 +99,18 @@ namespace KnockoutSample.Web.Controllers.api
         }
 
         // DELETE: api/Products/5
-        [ResponseType(typeof(ProductDTO))]
+        [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> DeleteProduct(int id)
         {
-            //Product product = await _productService.FindAsync(id);
-            ProductDTO productDto = await _productWebBridge.FindAsync(id);
-            if (productDto == null)
+            if (!_productWebBridge.ProductExists(id))
             {
                 return NotFound();
             }
 
-            //product.ObjectState = ObjectState.Deleted;
-            //_productService.Delete(product);
             _productWebBridge.Delete(id);
             await _unitOfWorkAsync.SaveChangesAsync();
 
-            return Ok(productDto);
+            return StatusCode(HttpStatusCode.OK);
         }
 
         protected override void Dispose(bool disposing)
@@ -137,7 +124,6 @@ namespace KnockoutSample.Web.Controllers.api
 
         private bool ProductExists(int id)
         {
-            //return _productService.Query(e => e.Id == id).Select().Any();
             return _productWebBridge.ProductExists(id);
         }
     }

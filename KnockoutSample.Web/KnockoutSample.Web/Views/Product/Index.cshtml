@@ -72,11 +72,11 @@
         </td>
         <td></td>
         <td>
-            @Html.TextBoxFor(p => p.Name, new { form = "addProduct" })
+            @Html.TextBoxFor(p => p.Name, new { form = "addProduct", data_bind = "value:name" })
             @Html.ValidationMessageFor(p => p.Name)
         </td>
         <td>
-            @Html.TextBoxFor(p => p.Price, new { form = "addProduct" })
+            @Html.TextBoxFor(p => p.Price, new { form = "addProduct", data_bind = "value:price" })
             @Html.ValidationMessageFor(p => p.Price)
         </td>
     </tr>

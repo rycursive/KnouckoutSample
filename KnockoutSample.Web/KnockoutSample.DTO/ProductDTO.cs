@@ -6,14 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Repository.Pattern.Ef6;
 
-namespace KnockoutSample.Model
+namespace KnockoutSample.DTO
 {
-    public class Product : Entity
+    public class ProductDTO
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
+        [Range(0, int.MaxValue)]
         public decimal Price { get; set; }
     }
 }

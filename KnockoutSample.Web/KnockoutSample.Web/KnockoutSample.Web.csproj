@@ -90,6 +90,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Omu.ValueInjecter, Version=2.3.3.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -313,6 +317,10 @@
       <Project>{27ea76b7-e7e2-4c6a-9864-8aee88ed75b9}</Project>
       <Name>KnockoutSample.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KnockoutSample.DTO\KnockoutSample.DTO.csproj">
+      <Project>{D7D8A646-47C2-44F6-A53D-9E8F47EDA85A}</Project>
+      <Name>KnockoutSample.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KnockoutSample.Model\KnockoutSample.Model.csproj">
       <Project>{E9274C1F-95EE-4903-A53F-60002F7FEB45}</Project>
       <Name>KnockoutSample.Model</Name>
@@ -320,6 +328,10 @@
     <ProjectReference Include="..\KnockoutSample.Service\KnockoutSample.Service.csproj">
       <Project>{2934fe6a-5e44-4de9-822a-a307fa637ee6}</Project>
       <Name>KnockoutSample.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnouckoutSample.WebBridge\KnouckoutSample.WebBridge.csproj">
+      <Project>{08E4C19A-4BB6-487D-9315-83676D720BE4}</Project>
+      <Name>KnouckoutSample.WebBridge</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

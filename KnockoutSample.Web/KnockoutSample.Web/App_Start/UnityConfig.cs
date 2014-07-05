@@ -1,6 +1,7 @@
 using System;
 using KnockoutSample.DAL;
 using KnockoutSample.Service;
+using KnouckoutSample.WebBridge;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Repository.Pattern.DataContext;
@@ -44,10 +45,11 @@ namespace KnockoutSample.Web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container
-               .RegisterType<IDataContextAsync, ApplicationDbContext>(new PerRequestLifetimeManager())
-               .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerRequestLifetimeManager())
-               .RegisterType(typeof(IRepositoryAsync<>), typeof(Repository<>))
-               .RegisterType<IProductService, ProductService>();
+                .RegisterType<IDataContextAsync, ApplicationDbContext>(new PerRequestLifetimeManager())
+                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerRequestLifetimeManager())
+                .RegisterType(typeof (IRepositoryAsync<>), typeof (Repository<>))
+                .RegisterType<IProductService, ProductService>()
+                .RegisterType<IProductWebBridge, ProductWebBridge>();
         }
     }
 }

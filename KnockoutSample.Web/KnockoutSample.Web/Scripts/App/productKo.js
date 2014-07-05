@@ -10,9 +10,13 @@
     self.loading = ko.observable(true);
     self.addmode = ko.observable(false);
     self.editMode = ko.observable(false);
+    self.name = ko.observable('');
+    self.price = ko.observable(0);
     baseUri = "api/Products";
     self.toggleAddMode = function() {
       self.addmode(!self.addmode());
+      self.name('');
+      self.price(0);
     };
     self.beginEditMode = function(object) {
       obj(object);
@@ -38,6 +42,8 @@
         data: object
       }).done(function(data, textStatus, xhr) {
         toastr.success(textStatus);
+        self.endEditMode();
+        self.load();
       }).fail(function(xhr, textStatus, error) {
         toastr.error(error);
       });
@@ -53,7 +59,7 @@
       $(formElement).validate();
       if ($(formElement).valid()) {
         $.post(baseUri, $(formElement).serialize(), null, "json").done(function(o) {
-          self.products.push(o);
+          self.load();
           self.toggleAddMode();
           toastr.success("Adding success");
         }).fail(function(xhr, textStatus, error) {
@@ -61,11 +67,14 @@
         });
       }
     };
-    $.getJSON(baseUri, self.products).done(function() {
-      self.loading(false);
-    }).fail(function() {
-      toastr.error('Loading error');
-    });
+    self.load = function() {
+      return $.getJSON(baseUri, self.products).done(function() {
+        self.loading(false);
+      }).fail(function() {
+        toastr.error('Loading error');
+      });
+    };
+    self.load();
   };
 
   $(document).ready(function() {
